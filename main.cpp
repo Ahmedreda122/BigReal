@@ -8,7 +8,7 @@ such as: +, -, <, and >.
 
 int main() 
 {
-    double num = 1.566;
+    double num = 250.5556656;
     BigReal a1(num);
 
 }

@@ -3,6 +3,8 @@
 
 #include "BigDecimalIntClass.h"
 #include <cmath>
+#include <algorithm>
+#include <sstream>
 
 class BigReal
 {
