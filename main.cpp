@@ -10,6 +10,10 @@ int main()
 {
     double num = 250.5556656;
     BigReal a1(num);
+    BigReal x("22.8");
+    BigReal y("22.5");
+    BigReal final = x + y;
+    
 
 //   stringstream realnStr, sstr; 
 

@@ -1,12 +1,12 @@
 #include "BigReal.h"
 
 BigReal::BigReal(double realNumber)
-{  
+{
   if (realNumber == 0.0)
   {
     BigReal("0.0");
     return;
-  } 
+  }
   else
   {
     /*
@@ -22,28 +22,26 @@ BigReal::BigReal(double realNumber)
     BigReal(realnSStr.str());
   }
 
-// ___________________________________________________________________
-    // Getting the int part of the realnumber by converting(casting) it to an integer
-    // int integerPart{(int) realNumber};
-    
-    // intPart = move(BigDecimalInt(to_string(integerPart)));
-    // // Getting the fraction part of the realnumber by substracting intpart from the realnumber
-    // double fraction {realNumber - integerPart};
+  // ___________________________________________________________________
+  // Getting the int part of the realnumber by converting(casting) it to an integer
+  // int integerPart{(int) realNumber};
+
+  // intPart = move(BigDecimalInt(to_string(integerPart)));
+  // // Getting the fraction part of the realnumber by substracting intpart from the realnumber
+  // double fraction {realNumber - integerPart};
 
   // string fractionStr {to_string(fraction)}; // 0.566 -> 0.566000
   // fractionStr.erase(remove(fractionStr.begin(), fractionStr.end(), '0'), fractionStr.end());
   // int size = fractionStr.size();
-  
 
   // int  fractionalPart = fraction * pow(10, (size-1));
   // fracPart = move(BigDecimalInt(to_string(fractionalPart)));
- 
 }
 
-BigReal::BigReal (string realNumber)
+BigReal::BigReal(string realNumber)
 {
   // if there is more than one dot in the input string
-  if (count (realNumber.begin(), realNumber.end(), '.') > 1)
+  if (count(realNumber.begin(), realNumber.end(), '.') > 1)
   {
     cout << "INVALID INPUT";
     return;
@@ -61,10 +59,70 @@ BigReal::BigReal (string realNumber)
   }
   else
   {
-    // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+    // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)
     intPart = move(BigDecimalInt(realNumber.substr(0, dotPos)));
 
     // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
     fracPart = move(BigDecimalInt(realNumber.substr(dotPos + 1)));
-  }                     
+  }
+}
+
+BigDecimalInt faddition(string num1, string num2)
+{
+  auto it1 = num1.rbegin();
+  auto it2 = num2.rbegin();
+  string res;
+  int carry = 0;
+  while (it1 != num1.rend())
+  {
+    int twoDigitsSum;
+    carry = 0;
+    twoDigitsSum = ((*it1 - '0') + (*it2 - '0'));
+    if (twoDigitsSum >= 10)
+    {
+      if (it1 == (num1.rend() - 1))
+      {
+        cary = 1;
+      }
+      else
+      {
+        carry = 1;
+      }
+    }
+    res = char((twoDigitsSum % 10) + '0') + res;
+    if (it1 == num1.rend() - 1)
+    {
+      break;
+    }
+    *(it1 + 1) = char((*(it1 + 1) + carry));
+    it1++;
+    it2++;
+  }
+
+  return res;
+}
+
+BigReal BigReal ::operator+(BigReal &other)
+{
+  BigReal result;
+  BigDecimalInt fnum1 = fracPart, fnum2 = other.fracPart;
+  BigDecimalInt intnum1 = intPart, intnum2 = other.intPart;
+  BigDecimalInt part1, part2;
+
+  part2 = faddition(fnum1.getNumber(), fnum2.getNumber());
+
+  if (cary)
+  {
+    BigDecimalInt carry("1");
+    BigDecimalInt finalNum1 = intnum1 + carry;
+    intnum1.setNumber(finalNum1.getNumber());
+  }
+  part1 = intnum1 + intnum2;
+
+  cout << part1.getNumber() << '.' << part2.getNumber();
+
+  result.fracPart = part2;
+  result.intPart = part1;
+
+  return result;
 }
