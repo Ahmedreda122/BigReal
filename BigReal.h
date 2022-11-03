@@ -5,6 +5,8 @@
 #include <cmath>
 #include <algorithm>
 #include <sstream>
+#include <stdio.h>
+#include <iomanip>
 
 class BigReal
 {
