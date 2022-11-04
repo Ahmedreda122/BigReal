@@ -119,10 +119,64 @@ BigReal BigReal ::operator+(BigReal &other)
   }
   part1 = intnum1 + intnum2;
 
-  cout << part1.getNumber() << '.' << part2.getNumber();
+  cout << part1 << '.' << part2;
 
   result.fracPart = part2;
   result.intPart = part1;
 
+  return result;
+}
+BigDecimalInt fsubtraction(string num1, string num2)
+{
+  deque<long long> d;
+  string res;
+  for (long long i = num1.length() - 1; i >= 0; i--)
+  {
+    if (num1[i] < num2[i])
+    {
+      // 0.3 - 0.7
+      //(-)0.4
+      num1[i] = char(num1[i] + 10);
+      if (i == 0)
+      {
+        caryminus = 1;
+      }
+      else
+      {
+        num1[i - 1] = char(num1[i - 1] - 1);
+      }
+    }
+    
+    d.push_front((num1[i] - '0') - (num2[i] - '0'));
+  }
+  // 2.3 - 1.7
+  // 0.6
+  for (auto i : d)
+  {
+    res += to_string(i);
+  }
+  return res;
+}
+
+BigReal BigReal ::operator-(BigReal &other)
+{
+  BigReal result;
+  BigDecimalInt fnum1 = fracPart, fnum2 = other.fracPart;
+  BigDecimalInt intnum1 = intPart, intnum2 = other.intPart;
+  BigDecimalInt part1, part2;
+  part1 = fsubtraction(fnum1.getNumber(), fnum2.getNumber());
+  cout << part2 << '.' << part1;
+  cout << '\n';
+  
+  if (caryminus)
+  {
+    BigDecimalInt carry("1");
+    BigDecimalInt finalNum1 = intnum1 - carry;
+    intnum1.setNumber(finalNum1.getNumber());
+  }
+  part2 = intnum1 - intnum2;
+  result.fracPart = part2;
+  result.intPart = part1;
+  cout << part2 << '.' << part1;
   return result;
 }

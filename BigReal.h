@@ -9,6 +9,8 @@
 #include <iomanip>
 
 int cary = 0;
+int caryminus = 0;
+bool zerosminus = false;
 
 class BigReal
 {

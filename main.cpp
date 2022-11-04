@@ -10,9 +10,15 @@ int main()
 {
     double num = 250.5556656;
     BigReal a1(num);
-    BigReal x("22.8");
-    BigReal y("22.5");
-    BigReal final = x + y;
+    BigDecimalInt aa("1");
+    BigDecimalInt bb("2");
+    BigDecimalInt cc = aa - bb;
+    cout << cc <<'\n';
+    BigReal x("0.3");
+    BigReal y("1.7");
+    BigReal pls = x + y;
+    cout << '\n';
+    BigReal min = x - y;
     
 
 //   stringstream realnStr, sstr; 
