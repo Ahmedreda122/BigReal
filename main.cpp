@@ -1,8 +1,3 @@
-/*
-description: In this problem we developed a new C++ type (class).
-that can hold unlimited decimal integer values and performs arithmetic operations on them.
-such as: +, -, <, and >.
- */
 #include "BigDecimalIntClass.cpp"
 #include "BigReal.cpp"
 
@@ -10,15 +5,19 @@ int main()
 {
     double num = 250.5556656;
     BigReal a1(num);
-    BigDecimalInt aa("1");
-    BigDecimalInt bb("2");
-    BigDecimalInt cc = aa - bb;
-    cout << cc <<'\n';
-    BigReal x("0.3");
-    BigReal y("1.7");
-    BigReal pls = x + y;
-    cout << '\n';
-    BigReal min = x - y;
+    BigReal a2(122.5);
+    // BigReal a3();
+    BigReal pls = (a1 + a2);
+
+    // BigDecimalInt aa("1");
+    // BigDecimalInt bb("2");
+    // BigDecimalInt cc = aa - bb;
+    // cout << cc <<'\n';
+    // BigReal x("0.3");
+    // BigReal y("1.7");
+    // BigReal pls = x + y;
+    // cout << '\n';
+    // BigReal min = x - y;
     
 
 //   stringstream realnStr, sstr; 

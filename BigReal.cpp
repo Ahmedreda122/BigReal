@@ -2,6 +2,7 @@
 
 BigReal::BigReal(double realNumber)
 {
+  cout << "<---------Default Constructor--------->" << endl;
   if (realNumber == 0.0)
   {
     BigReal("0.0");
@@ -21,21 +22,6 @@ BigReal::BigReal(double realNumber)
     // Gets its standard string object (from string stream) and sending it to the string constructor to deal with it
     BigReal(realnSStr.str());
   }
-
-  // ___________________________________________________________________
-  // Getting the int part of the realnumber by converting(casting) it to an integer
-  // int integerPart{(int) realNumber};
-
-  // intPart = move(BigDecimalInt(to_string(integerPart)));
-  // // Getting the fraction part of the realnumber by substracting intpart from the realnumber
-  // double fraction {realNumber - integerPart};
-
-  // string fractionStr {to_string(fraction)}; // 0.566 -> 0.566000
-  // fractionStr.erase(remove(fractionStr.begin(), fractionStr.end(), '0'), fractionStr.end());
-  // int size = fractionStr.size();
-
-  // int  fractionalPart = fraction * pow(10, (size-1));
-  // fracPart = move(BigDecimalInt(to_string(fractionalPart)));
 }
 
 BigReal::BigReal(string realNumber)
@@ -65,6 +51,48 @@ BigReal::BigReal(string realNumber)
     // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
     fracPart = move(BigDecimalInt(realNumber.substr(dotPos + 1)));
   }
+}
+
+BigReal::BigReal(BigDecimalInt bigInteger)
+{
+  intPart = bigInteger;
+  fracPart = move(BigDecimalInt("0"));
+}
+
+BigReal::BigReal(const BigReal &other)
+{
+  cout << "<---------Copy Constructor--------->" << endl;
+  if (this != &other)
+  {
+    this->intPart = other.intPart;
+    this->fracPart = other.fracPart;
+  }
+}
+
+BigReal& BigReal::operator=(BigReal &other)
+{
+  if (this != &other)
+  {
+    this->intPart = other.intPart;
+    this->fracPart = other.fracPart;
+  }
+  return *this;
+}
+
+BigReal::BigReal(BigReal&& other)
+{
+  cout << "<---------Move Constructor--------->" << endl;
+  intPart = move(other.intPart);
+  fracPart = move(other.fracPart);
+}
+
+BigReal& BigReal::operator=(BigReal&& other)
+{
+  cout << "<---------Move Constructor--------->" << endl;
+  intPart = move(other.intPart);
+  fracPart = move(other.fracPart);
+
+  return *this;
 }
 
 BigDecimalInt faddition(string num1, string num2)
