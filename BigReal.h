@@ -24,14 +24,14 @@ public:
     BigReal& operator=(BigReal &&other); // Move assignment
     BigReal operator+(BigReal other);
     BigReal operator-(BigReal other);
+    bool operator< (BigReal anotherReal);  
+    bool operator> (BigReal anotherReal); 
+    bool operator== (BigReal anotherReal); 
     int sign();
     int size();
+    string getNum() {return fullNum;}  
     friend ostream &operator<<(ostream &out, BigReal num);
     friend istream &operator>>(istream &out, BigReal &num);
-    string getNum()
-    {
-        return fullNum;
-    }
 };
 
 #endif

@@ -3,6 +3,21 @@
 
 int main()
 {
+    // BigReal str("-5.1");
+    // BigReal str2("-5");
+
+    // // if (str < str2)
+    // // {
+    // //     cout << "hehe";
+    // // }
+    // if (str > str2)
+    // {
+    //     cout << "hehe55";
+    // }
+    // else
+    // {
+    //     cout << "hehe44";
+    // }   
 
     // double num = 250.5556656;
     // BigReal a1(num);
@@ -21,14 +36,16 @@ int main()
     BigReal x("1.0000");
     BigReal y("9.5682");
     BigReal pls = x + y;
-    // BigReal pls1 = x - y;
+    BigReal pls1 = x - y;
     cout << "X + Y = " << pls << '\n';
-    // cout << "X - Y = " << pls1.getNum() << '\n';
-    // cout << '\n';
-    // BigReal z;
-    // cin >> z;
-    // cout << z << '\n';
-    // BigReal min = x - y;
+    cout << "sizeofX: " << x.size() << endl;
+    cout << "sizeofY: " << y.size() << endl; 
+    cout << "X - Y = " << pls1 << '\n';
+    cout << '\n';
+    BigReal z;
+    cin >> z;
+    cout << z << '\n';
+    BigReal min = x - y;
 
     // BigReal x("0.3");
     // BigReal y("1.7");

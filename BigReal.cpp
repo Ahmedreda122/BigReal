@@ -66,6 +66,37 @@ BigReal::BigReal(string realNumber) : fullNum(realNumber)
   }
 }
 
+BigReal::BigReal(const BigReal &other)
+{
+  cout << "<---------Copy Constructor--------->" << endl;
+  if (this != &other)
+  {
+    fullNum = other.fullNum;
+  }
+}
+
+BigReal::BigReal(BigReal &&other)
+{
+  cout << "<---------Move Constructor--------->" << endl;
+  fullNum = move(other.fullNum);
+}
+
+BigReal &BigReal::operator=(BigReal &&other)
+{
+  cout << "<---------Move Assigment--------->" << endl;
+  fullNum = move(other.fullNum );
+  return *this;
+}
+
+BigReal& BigReal::operator=(BigReal &other)
+{
+  if (this != &other)
+  {
+    this->fullNum = other.fullNum;
+  }
+  return *this;
+}
+
 string erase_dot(string &target)
 {
   target.erase(remove(target.begin(), target.end(), '.'), target.end());
@@ -77,10 +108,10 @@ BigReal BigReal::operator+(BigReal other)
   string tmpFullNum = fullNum;
   long long dotIndex1 = tmpFullNum.find(".");
   long long dotIndex2 = other.fullNum.find(".");
-  string fracStr1 = tmpFullNum.substr(dotIndex1 + 1);
-  string fracStr2 = other.fullNum.substr(dotIndex2 + 1);
-  long long first = fracStr1.size();
-  long long second = fracStr2.size();
+  string fracPart1 = tmpFullNum.substr(dotIndex1 + 1);
+  string fracPart2 = other.fullNum.substr(dotIndex2 + 1);
+  long long first = fracPart1.size();
+  long long second = fracPart2.size();
   long long bigger = max(first, second);
   while (first < bigger)
   {
@@ -143,16 +174,18 @@ BigReal BigReal ::operator-(BigReal other)
   string tmpFullNum = fullNum;
   long long dotIndex1 = tmpFullNum.find(".");
   long long dotIndex2 = other.fullNum.find(".");
-  string fracStr1 = tmpFullNum.substr(dotIndex1 + 1);
-  string fracStr2 = other.fullNum.substr(dotIndex2 + 1);
-  long long first = fracStr1.size();
-  long long second = fracStr2.size();
+  string fracPart1 = tmpFullNum.substr(dotIndex1 + 1);
+  string fracPart2 = other.fullNum.substr(dotIndex2 + 1);
+  long long first = fracPart1.size();
+  long long second = fracPart2.size();
   long long bigger = max(first, second);
+
   while (first < bigger)
   {
     tmpFullNum += '0';
     first++;
   }
+
   while (second < bigger)
   {
     other.fullNum += '0';
@@ -193,24 +226,6 @@ BigReal BigReal ::operator-(BigReal other)
   return BigReal(finalResult);
 }
 
-
-BigReal::BigReal(const BigReal &other)
-{
-  cout << "<---------Copy Constructor--------->" << endl;
-  if (this != &other)
-  {
-    fullNum = other.fullNum;
-  }
-}
-
-BigReal& BigReal::operator=(BigReal &other)
-{
-  if (this != &other)
-  {
-    this->fullNum = other.fullNum;
-  }
-  return *this;
-}
 ostream &operator<<(ostream &out, BigReal num)
 {
 
@@ -218,12 +233,14 @@ ostream &operator<<(ostream &out, BigReal num)
 
   return out;
 }
-istream &operator>>(istream &out, BigReal &num)
-{
-  out >> num.fullNum;
 
-  return out;
+istream &operator>>(istream &in, BigReal &num)
+{
+  in >> num.fullNum;
+
+  return in;
 }
+
 int BigReal::sign()
 {
   if (fullNum[0] == '-')
@@ -235,20 +252,182 @@ int BigReal::sign()
     return 1;
   }
 }
+
 int BigReal::size()
 {
   return fullNum.size();
 }
 
-BigReal::BigReal(BigReal &&other)
+bool BigReal::operator==(BigReal anotherReal)
 {
-  cout << "<---------Move Constructor--------->" << endl;
-  fullNum = move(other.fullNum);
+  if (fullNum == anotherReal.fullNum)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
-BigReal &BigReal::operator=(BigReal &&other)
+bool BigReal::operator<(BigReal anotherReal)
 {
-  cout << "<---------Move Constructor--------->" << endl;
-  fullNum = move(other.fullNum );
-  return *this;
+  int dotPos1 = fullNum.find('.', 0);
+
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  BigDecimalInt intPart1 = move(BigDecimalInt(fullNum.substr(0, dotPos1)));
+
+  // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
+  BigDecimalInt fracPart1 = move(BigDecimalInt(fullNum.substr(dotPos1 + 1)));
+
+  int dotPos2 = anotherReal.fullNum.find('.', 0);
+
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  BigDecimalInt intPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(0, dotPos2)));
+
+  // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
+  BigDecimalInt fracPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(dotPos2 + 1)));
+
+  // me < another 
+  if (intPart1 < intPart2)
+  {
+    return true;
+  }
+  // 500.6565 > 300.99999999
+  else if (intPart1 > intPart2)
+  {
+    return false;
+  }
+  // -500.4 < -500.9
+  else if (intPart1 == intPart2 && intPart1.sign() == 0 && intPart2.sign() == 0)
+  {
+    if (fracPart1 < fracPart2)
+    {
+      return false;
+    }
+    else if (fracPart1 > fracPart2)
+    {
+      return true;
+    }
+    else // if fracPart1 == fracPart2
+    {
+      return false;
+    }
+  }
+  // 500.5 < 500.6 
+  else if (intPart1 == intPart2 && intPart1.sign() == 1 && intPart2.sign() == 1)
+  {
+    if (fracPart1 < fracPart2)
+    {
+      return true;
+    }
+    else if (fracPart1 > fracPart2)
+    {
+      return false;
+    }
+    else // if fracPart1 == fracPart2
+    {
+      return false;
+    }
+  }
+
+  return false;
 }
+
+bool BigReal::operator> (BigReal anotherReal)
+{
+  int dotPos1 = fullNum.find('.', 0);
+
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  BigDecimalInt intPart1 = move(BigDecimalInt(fullNum.substr(0, dotPos1)));
+
+  // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
+  BigDecimalInt fracPart1 = move(BigDecimalInt(fullNum.substr(dotPos1 + 1)));
+
+  int dotPos2 = anotherReal.fullNum.find('.', 0);
+
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  BigDecimalInt intPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(0, dotPos2)));
+
+  // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
+  BigDecimalInt fracPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(dotPos2 + 1)));
+
+  // me > another 
+  if (intPart1 < intPart2)
+  {
+    return false;
+  }
+  // 500.6565 > 300.99999999
+  else if (intPart1 > intPart2)
+  {
+    return true;
+  }
+  // -500.9 > -500.4
+  else if (intPart1 == intPart2 && intPart1.sign() == 0 && intPart2.sign() == 0)
+  {
+    if (fracPart1 < fracPart2)
+    {
+      return true;
+    }
+    else if (fracPart1 > fracPart2)
+    {
+      return false;
+    }
+    else // if fracPart1 == fracPart2
+    {
+      return false;
+    }
+  }
+  // 500.5 > 500.6 
+  else if (intPart1 == intPart2 && intPart1.sign() == 1 && intPart2.sign() == 1)
+  {
+    if (fracPart1 < fracPart2)
+    {
+      return false;
+    }
+    else if (fracPart1 > fracPart2)
+    {
+      return true;
+    }
+    else // if fracPart1 == fracPart2
+    {
+      return false;
+    }
+  }
+
+  return false;
+}
+
+
+
+
+
+
+
+  // // -1.0 < 5 
+  // if (fullNum[0] == '-' && anotherReal.fullNum[0] == '+')
+  // {
+  //   return true;
+  // }
+  // // 1.0 < -5 
+  // else if (fullNum[0] == '+' && anotherReal.fullNum[0] == '-')
+  // {
+  //   return false;
+  // }
+  // else if (fullNum[0] == '-' && anotherReal.fullNum[0] == '-')
+  // {
+  //   if (size() == anotherReal.size())
+  //   {
+  //     return (fullNum < anotherReal.fullNum);
+  //   }
+  //   // 1.55555 < 50.0
+  //   else if (size() > anotherReal.size())
+  //   {
+  //     long dotIndex1 =  fullNum.find(".");
+  //     long dotIndex2 =  anotherReal.fullNum.find(".");
+  //     string intStr1 = fullNum.substr(0 , dotIndex1);
+  //     string fracPart1 = fullNum.substr(dotIndex1 + 1);
+  //     string intStr2 = anotherReal.fullNum.substr(0, dotIndex2);
+  //     string fracPart2 = anotherReal.fullNum.substr(dotIndex2 + 1);
+  //   }
+  // }
