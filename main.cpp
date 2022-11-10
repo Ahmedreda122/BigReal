@@ -18,13 +18,16 @@ int main()
     // BigDecimalInt cc = aa - bb;
     // cout << cc <<'\n';
 
-    BigReal x("300.94");
-    BigReal y("+40000.480");
+    BigReal x("1.0000");
+    BigReal y("9.5682");
     BigReal pls = x + y;
-    BigReal pls1 = x - y;
-    cout << "X + Y = " << pls.getNum() << '\n';
-    cout << "X - Y = " << pls1.getNum() << '\n';
-    cout << '\n';
+    // BigReal pls1 = x - y;
+    cout << "X + Y = " << pls << '\n';
+    // cout << "X - Y = " << pls1.getNum() << '\n';
+    // cout << '\n';
+    // BigReal z;
+    // cin >> z;
+    // cout << z << '\n';
     // BigReal min = x - y;
 
     // BigReal x("0.3");

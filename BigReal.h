@@ -14,7 +14,6 @@ class BigReal
 {
 private:
     string fullNum;
-    char sign{};
 
 public:
     BigReal(double realNumber = 0.0); // Default constructor
@@ -26,7 +25,10 @@ public:
     // BigReal& operator=(BigReal &&other); // Move assignment
     BigReal operator+(BigReal &other);
     BigReal operator-(BigReal &other);
-    //    int sign();
+    int sign();
+    int size();
+    friend ostream &operator<<(ostream &out, BigReal num);
+    friend istream &operator>>(istream &out, BigReal &num);
     string getNum()
     {
         return fullNum;
