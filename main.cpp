@@ -7,22 +7,23 @@ int main()
     // double num = 250.5556656;
     // BigReal a1(num);
 
-    double num = 250.5556656;
-    BigReal a1(num);
-    BigReal a2(122.5);
-    // BigReal a3();
-    BigReal pls = (a1 + a2);
-
+    // double num = 250.5556656;
+    // BigReal a1(num);
+    // BigReal a2(122.5);
+    // // BigReal a3();
+    // BigReal pls = (a1 + a2);
 
     // BigDecimalInt aa("1");
     // BigDecimalInt bb("2");
     // BigDecimalInt cc = aa - bb;
     // cout << cc <<'\n';
 
-    BigReal x("300.44");
-    BigReal y("-40000.41");
+    BigReal x("300.94");
+    BigReal y("+40000.480");
     BigReal pls = x + y;
-    cout << pls.getNum();
+    BigReal pls1 = x - y;
+    cout << "X + Y = " << pls.getNum() << '\n';
+    cout << "X - Y = " << pls1.getNum() << '\n';
     cout << '\n';
     // BigReal min = x - y;
 
@@ -31,7 +32,6 @@ int main()
     // BigReal pls = x + y;
     // cout << '\n';
     // BigReal min = x - y;
-
 
     //   stringstream realnStr, sstr;
 
