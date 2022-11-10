@@ -95,30 +95,36 @@ BigReal BigReal::operator+(BigReal other)
 
   cout << "1 " << dotIndex1 << '\n';
   cout << "2 " << dotIndex2 << '\n';
-
   string target1 = erase_dot(tmpFullNum);
   string target2 = erase_dot(other.fullNum);
-  long long size1 = target1.size();
-  long long size2 = target2.size();
-
-  cout << target1 << '\n'
-       << target2 << '\n';
+  cout << target1 << '\n'<< target2 << '\n';
   BigDecimalInt firstNum(target1), secondNum(target2), result;
   string finalResult;
   result = firstNum + secondNum;
-
+  long long size1 = firstNum.size();
+  long long size2 = secondNum.size();
+  long long maximum = max(size1, size2);
+  long long dot;
+  if (maximum == size1)
+  {
+    dot = dotIndex1;
+  }
+  else
+  {
+    dot = dotIndex2;
+  }
   finalResult = result.getNumber();
   cout << "finalResult: " << finalResult << '\n';
   cout << "SZ1: " << size1 << '\n';
   cout << "SZ2: " << size2 << '\n';
-
-  if (size1 > size2)
+  cout << "(result.size()): " << (result.size()) << '\n';
+  if ((result.size()) > maximum) // +1 to count the sign
   {
-    finalResult.insert(--dotIndex1, ".");
+    finalResult.insert(dot, ".");
   }
   else
   {
-    finalResult.insert(--dotIndex2, ".");
+    finalResult.insert(--dot, ".");
   }
   
   if (!result.sign())
@@ -161,7 +167,8 @@ BigReal BigReal ::operator-(BigReal other)
   long long size1 = target1.size();
   long long size2 = target2.size();
 
-  cout << target1 << '\n'<< target2 << '\n';
+  cout << target1 << '\n'
+       << target2 << '\n';
   BigDecimalInt firstNum(target1), secondNum(target2), result;
   string finalResult;
   result = firstNum - secondNum;
@@ -170,15 +177,10 @@ BigReal BigReal ::operator-(BigReal other)
   cout << "finalResult: " << finalResult << '\n';
   cout << "SZ1: " << size1 << '\n';
   cout << "SZ2: " << size2 << '\n';
-  if (size1 > size2)
-  {
-    finalResult.insert(--dotIndex1, ".");
-  }
-  else
-  {
-    finalResult.insert(--dotIndex2, ".");
-  }
-  
+
+  finalResult.insert(--dotIndex2, ".");
+
+
   if (result.sign())
   {
     finalResult.insert(0, "+");
@@ -208,6 +210,34 @@ BigReal& BigReal::operator=(BigReal &other)
     this->fullNum = other.fullNum;
   }
   return *this;
+}
+ostream &operator<<(ostream &out, BigReal num)
+{
+
+  out << num.fullNum;
+
+  return out;
+}
+istream &operator>>(istream &out, BigReal &num)
+{
+  out >> num.fullNum;
+
+  return out;
+}
+int BigReal::sign()
+{
+  if (fullNum[0] == '-')
+  {
+    return 0;
+  }
+  else
+  {
+    return 1;
+  }
+}
+int BigReal::size()
+{
+  return fullNum.size();
 }
 
 BigReal::BigReal(BigReal &&other)
