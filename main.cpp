@@ -7,14 +7,14 @@ such as: +, -, <, and >.
 #include "BigReal.cpp"
 
 int main()
-{//jhgjgh
+{
     // double num = 250.5556656;
     // BigReal a1(num);
     // BigDecimalInt aa("1");
     // BigDecimalInt bb("2");
     // BigDecimalInt cc = aa - bb;
     // cout << cc <<'\n';
-    BigReal x("+300.44");
+    BigReal x("300.44");
     BigReal y("-40000.41");
     BigReal pls = x + y;
     cout << pls.getNum();

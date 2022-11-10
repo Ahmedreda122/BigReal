@@ -81,7 +81,6 @@ string erase_dot(string &target)
   target.erase(remove(target.begin(), target.end(), '.'), target.end());
   return target;
 }
-/fdas
 BigReal BigReal ::operator+(BigReal &other)
 {
 
