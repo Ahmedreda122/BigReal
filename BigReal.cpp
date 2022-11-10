@@ -2,6 +2,7 @@
 
 BigReal::BigReal(double realNumber)
 {
+  cout << "<---------Default Constructor--------->" << endl;
   if (realNumber == 0.0)
   {
     BigReal("0.0");
@@ -175,225 +176,268 @@ BigReal BigReal ::operator+(BigReal &other)
 //     }
 //   }
 
-//   part1 = intnum1 - intnum2;
+BigReal::BigReal(BigDecimalInt bigInteger)
+{
+  intPart = bigInteger;
+  fracPart = move(BigDecimalInt("0"));
+}
 
-//   cout << part1 << '.' << part2;
-//   result.fracPart = part2;
-//   result.intPart = part1;
-//   return result;
-// }
-// int BigReal::sign()
-// {
-//   if (intPart.sign())
-//     return 1;
-//   else
-//     return 0;
-// }
+BigReal::BigReal(const BigReal &other)
+{
+  cout << "<---------Copy Constructor--------->" << endl;
+  if (this != &other)
+  {
+    this->intPart = other.intPart;
+    this->fracPart = other.fracPart;
+  }
+}
 
-// int sign1 = result.sign();
+BigReal &BigReal::operator=(BigReal &other)
+{
+  if (this != &other)
+  {
+    this->intPart = other.intPart;
+    this->fracPart = other.fracPart;
+  }
+  return *this;
+}
 
-// if (fnum1.size() > fnum2.size())
-// {
-//   for (long long i = 0; i < fnum1.size() - fnum2.size(); i++)
-//   {
-//     min += '0';
-//   }
-//   min += fnum2.getNumber();
-//   fnum2 = min;
-// }
-// else if (fnum1.size() < fnum2.size())
-// {
-//   for (long long i = 0; i < fnum2.size() - fnum1.size(); i++)
-//   {
-//     min += '0';
-//   }
-//   min += fnum1.getNumber();
-//   fnum1 = min;
-// }
+BigReal::BigReal(BigReal &&other)
+{
+  cout << "<---------Move Constructor--------->" << endl;
+  intPart = move(other.intPart);
+  fracPart = move(other.fracPart);
+}
 
-// bool ok = false, is_determined = false;
-// if (fnum1 < fnum2)
-// {
-//   int temp;
-//   swap(fnum1, fnum2);
-//   // temp = intnum2.size();
+BigReal &BigReal::operator=(BigReal &&other)
+{
+  cout << "<---------Move Constructor--------->" << endl;
+  intPart = move(other.intPart);
+  fracPart = move(other.fracPart);
 
-//   // intnum1.size() = temp;
+  return *this;
+}
 
-//   // swap(intnum1.size(), intnum2.size());
-//   ok = true;
-// }
 
-// if (intnum1.sign() == intnum2.sign())
-// {
-//   part1 = fsubtraction(fnum1.getNumber(), fnum2.getNumber());
-//   cout << part2 << '.' << part1;
-//   cout << '\n';
-//   if (!fnum1.size())
-//     ok = !ok;
-// }
-// else
-// {
-//   part2 = faddition(fnum1.getNumber(), fnum2.getNumber());
-//   if (!fnum1.size())
-//   {
-//     sign1 = 0;
-//     is_determined = true;
-//   }
-//   else
-//   {
-//     sign1 = 1;
-//     is_determined = true;
-//   }
-// }
+  //   part1 = intnum1 - intnum2;
 
-// bool right = false;
-// for (long long i = 0; i < res.length(); i++)
-// {
-//   if (res[i] != '-' && res[i] != '0')
-//   {
-//     right = true;
-//   }
-//   if (!right && res[i] == '0')
-//   {
-//     res.erase(i, 1);
-//     i--;
-//   }
-// }
+  //   cout << part1 << '.' << part2;
+  //   result.fracPart = part2;
+  //   result.intPart = part1;
+  //   return result;
+  // }
+  // int BigReal::sign()
+  // {
+  //   if (intPart.sign())
+  //     return 1;
+  //   else
+  //     return 0;
+  // }
 
-// if (res.empty())
-//   res = "0";
-// if (!is_determined && (ok))
-// {
-//   sign1 = 0;
-// }
-// else if (!is_determined)
-// {
-//   sign1 = 1;
-// }
+  // int sign1 = result.sign();
 
-// result.fracPart.getNumber() = res;
+  // if (fnum1.size() > fnum2.size())
+  // {
+  //   for (long long i = 0; i < fnum1.size() - fnum2.size(); i++)
+  //   {
+  //     min += '0';
+  //   }
+  //   min += fnum2.getNumber();
+  //   fnum2 = min;
+  // }
+  // else if (fnum1.size() < fnum2.size())
+  // {
+  //   for (long long i = 0; i < fnum2.size() - fnum1.size(); i++)
+  //   {
+  //     min += '0';
+  //   }
+  //   min += fnum1.getNumber();
+  //   fnum1 = min;
+  // }
 
-// string faddition(string num1, string num2)
-// {
-//   auto it1 = num1.rbegin();
-//   auto it2 = num2.rbegin();
-//   string res;
-//   int carry = 0;
-//   while (it1 != num1.rend())
-//   {
-//     int twoDigitsSum;
-//     carry = 0;
-//     twoDigitsSum = ((*it1 - '0') + (*it2 - '0'));
-//     if (twoDigitsSum >= 10)
-//     {
-//       if (it1 == (num1.rend() - 1))
-//       {
-//         cary = 1;
-//       }
-//       else
-//       {
-//         carry = 1;
-//       }
-//     }
-//     res = char((twoDigitsSum % 10) + '0') + res;
-//     if (it1 == num1.rend() - 1)
-//     {
-//       break;
-//     }
-//     *(it1 + 1) = char((*(it1 + 1) + carry));
-//     it1++;
-//     it2++;
-//   }
+  // bool ok = false, is_determined = false;
+  // if (fnum1 < fnum2)
+  // {
+  //   int temp;
+  //   swap(fnum1, fnum2);
+  //   // temp = intnum2.size();
 
-//   return res;
-// }
-// string fsubtraction(string num1, string num2)
-// {
-//   deque<long long> d;
-//   string res;
-//   for (long long i = num1.length() - 1; i >= 0; i--)
-//   {
-//     // "0762.9751"
-//     // "5762.9730"
-//     // -5000.0021
-//     if (num1[i] < num2[i])
-//     {
-//       // 0.3 - 0.7
-//       // (-)0.4
-//       if (i == 0)
-//       {
-//         caryminus = 1;
-//       }
-//       else
-//       {
-//         num1[i - 1] = char(num1[i - 1] - 1);
-//       }
-//       num1[i] = char(num1[i] + 10);
-//     }
+  //   // intnum1.size() = temp;
 
-//     d.push_front((num1[i] - '0') - (num2[i] - '0'));
-//   }
-//   // 2.3 - 1.7
-//   // 0.6
-//   for (auto i : d)
-//   {
-//     res += to_string(i);
-//   }
-//   return res;
-// }
-//++
-// BigReal result;
-//   BigDecimalInt fnum1 = fracPart, fnum2 = other.fracPart;
-//   BigDecimalInt intnum1 = intPart, intnum2 = other.intPart;
-//   BigDecimalInt part1, part2;
+  //   // swap(intnum1.size(), intnum2.size());
+  //   ok = true;
+  // }
 
-//   while (fnum1.size() < fnum2.size())
-//   {
-//     fnum1.setNumber(fnum1.getNumber() + '0');
-//   }
-//   while (fnum2.size() < fnum1.size())
-//   {
-//     fnum2.setNumber(fnum2.getNumber() + '0');
-//   }
+  // if (intnum1.sign() == intnum2.sign())
+  // {
+  //   part1 = fsubtraction(fnum1.getNumber(), fnum2.getNumber());
+  //   cout << part2 << '.' << part1;
+  //   cout << '\n';
+  //   if (!fnum1.size())
+  //     ok = !ok;
+  // }
+  // else
+  // {
+  //   part2 = faddition(fnum1.getNumber(), fnum2.getNumber());
+  //   if (!fnum1.size())
+  //   {
+  //     sign1 = 0;
+  //     is_determined = true;
+  //   }
+  //   else
+  //   {
+  //     sign1 = 1;
+  //     is_determined = true;
+  //   }
+  // }
 
-//   if (intnum1.sign() == intnum2.sign())
-//   {
-//     part2 = faddition(fnum1.getNumber(), fnum2.getNumber());
-//     if (cary)
-//     {
-//       BigDecimalInt carry("1");
-//       BigDecimalInt finalNum1 = intnum1 + carry;
-//       intnum1.setNumber(finalNum1.getNumber());
-//     }
-//   }
-//   else
-//   {
-//     if (!intnum1.sign())
-//     {
-//       part2.setNumber(fsubtraction(fnum2.getNumber(), fnum1.getNumber()));
-//       if (caryminus)
-//       {
-//         BigDecimalInt carry("1");
-//         BigDecimalInt finalNum1 = intnum1 - carry;
-//         intnum1.setNumber(finalNum1.getNumber());
-//       }
-//     }
-//     else
-//       part2.setNumber(fsubtraction(fnum1.getNumber(), fnum2.getNumber()));
-//     if (caryminus)
-//     {
-//       BigDecimalInt carry("1");
-//       BigDecimalInt finalNum1 = intnum1 - carry;
-//       intnum1.setNumber(finalNum1.getNumber());
-//     }
-//   }
+  // bool right = false;
+  // for (long long i = 0; i < res.length(); i++)
+  // {
+  //   if (res[i] != '-' && res[i] != '0')
+  //   {
+  //     right = true;
+  //   }
+  //   if (!right && res[i] == '0')
+  //   {
+  //     res.erase(i, 1);
+  //     i--;
+  //   }
+  // }
 
-//   part1 = intnum1 + intnum2;
+  // if (res.empty())
+  //   res = "0";
+  // if (!is_determined && (ok))
+  // {
+  //   sign1 = 0;
+  // }
+  // else if (!is_determined)
+  // {
+  //   sign1 = 1;
+  // }
 
-//   cout << part1 << '.' << part2;
+  // result.fracPart.getNumber() = res;
 
-//   result.fracPart = part2;
-//   result.intPart = part1;
+  // string faddition(string num1, string num2)
+  // {
+  //   auto it1 = num1.rbegin();
+  //   auto it2 = num2.rbegin();
+  //   string res;
+  //   int carry = 0;
+  //   while (it1 != num1.rend())
+  //   {
+  //     int twoDigitsSum;
+  //     carry = 0;
+  //     twoDigitsSum = ((*it1 - '0') + (*it2 - '0'));
+  //     if (twoDigitsSum >= 10)
+  //     {
+  //       if (it1 == (num1.rend() - 1))
+  //       {
+  //         cary = 1;
+  //       }
+  //       else
+  //       {
+  //         carry = 1;
+  //       }
+  //     }
+  //     res = char((twoDigitsSum % 10) + '0') + res;
+  //     if (it1 == num1.rend() - 1)
+  //     {
+  //       break;
+  //     }
+  //     *(it1 + 1) = char((*(it1 + 1) + carry));
+  //     it1++;
+  //     it2++;
+  //   }
 
-//   return result;
+  //   return res;
+  // }
+  // string fsubtraction(string num1, string num2)
+  // {
+  //   deque<long long> d;
+  //   string res;
+  //   for (long long i = num1.length() - 1; i >= 0; i--)
+  //   {
+  //     // "0762.9751"
+  //     // "5762.9730"
+  //     // -5000.0021
+  //     if (num1[i] < num2[i])
+  //     {
+  //       // 0.3 - 0.7
+  //       // (-)0.4
+  //       if (i == 0)
+  //       {
+  //         caryminus = 1;
+  //       }
+  //       else
+  //       {
+  //         num1[i - 1] = char(num1[i - 1] - 1);
+  //       }
+  //       num1[i] = char(num1[i] + 10);
+  //     }
+
+  //     d.push_front((num1[i] - '0') - (num2[i] - '0'));
+  //   }
+  //   // 2.3 - 1.7
+  //   // 0.6
+  //   for (auto i : d)
+  //   {
+  //     res += to_string(i);
+  //   }
+  //   return res;
+  // }
+  //++
+  // BigReal result;
+  //   BigDecimalInt fnum1 = fracPart, fnum2 = other.fracPart;
+  //   BigDecimalInt intnum1 = intPart, intnum2 = other.intPart;
+  //   BigDecimalInt part1, part2;
+
+  //   while (fnum1.size() < fnum2.size())
+  //   {
+  //     fnum1.setNumber(fnum1.getNumber() + '0');
+  //   }
+  //   while (fnum2.size() < fnum1.size())
+  //   {
+  //     fnum2.setNumber(fnum2.getNumber() + '0');
+  //   }
+
+  //   if (intnum1.sign() == intnum2.sign())
+  //   {
+  //     part2 = faddition(fnum1.getNumber(), fnum2.getNumber());
+  //     if (cary)
+  //     {
+  //       BigDecimalInt carry("1");
+  //       BigDecimalInt finalNum1 = intnum1 + carry;
+  //       intnum1.setNumber(finalNum1.getNumber());
+  //     }
+  //   }
+  //   else
+  //   {
+  //     if (!intnum1.sign())
+  //     {
+  //       part2.setNumber(fsubtraction(fnum2.getNumber(), fnum1.getNumber()));
+  //       if (caryminus)
+  //       {
+  //         BigDecimalInt carry("1");
+  //         BigDecimalInt finalNum1 = intnum1 - carry;
+  //         intnum1.setNumber(finalNum1.getNumber());
+  //       }
+  //     }
+  //     else
+  //       part2.setNumber(fsubtraction(fnum1.getNumber(), fnum2.getNumber()));
+  //     if (caryminus)
+  //     {
+  //       BigDecimalInt carry("1");
+  //       BigDecimalInt finalNum1 = intnum1 - carry;
+  //       intnum1.setNumber(finalNum1.getNumber());
+  //     }
+  //   }
+
+  //   part1 = intnum1 + intnum2;
+
+  //   cout << part1 << '.' << part2;
+
+  //   result.fracPart = part2;
+  //   result.intPart = part1;
+
+  //   return result;
