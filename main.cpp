@@ -1,51 +1,81 @@
+// FCAI – OOP – 2022 - Assignment 2
+// Program: BigReal Class
+// Author: Abdallah Hussein Ibrahim Hussein - Ahmad Reda Bayoumi
+// IDs: 20210235 - 20210019
+// Date: November 2022
+// ...........................................................................................
+
 #include "BigDecimalIntClass.cpp"
 #include "BigReal.cpp"
 
 int main()
 {
-    // BigReal str("-5.1");
-    // BigReal str2("-5");
+    BigReal num1("999.6600");
+    BigReal num2("+9999.77");
+    BigReal input;
 
-    // // if (str < str2)
-    // // {
-    // //     cout << "hehe";
-    // // }
-    // if (str > str2)
+    cout << "enter a BigReal Numer to Test istream:" << '\n';
+    cin >> input;
+    cout << "Test 1 Accepted\n";
+
+    cout << "Testing ostream: " << input << '\n';
+    cout << "Test 2 Accepted\n";
+
+    if (num1.sign())
+    {
+        cout << "Test 3 Accepted\n";
+    }
+    if (num2.size() == 8)
+    {
+        cout << "Test 4 Accepted\n";
+    }
+    if ((num2.sign()) && (num2.getNum() == "+9999.77"))
+    {
+        cout << "Test 5 Accepted\n";
+    }
+    if (BigReal("555.5555") > BigReal("555"))
+    {
+        cout << "Test 6 Accepted\n";
+    }
+    if (BigReal("555") < BigReal("555.5555"))
+    {
+        cout << "Test 7 Accepted\n";
+    }
+    if (BigReal("500.51") + BigReal("500.51") == BigReal("1001.02"))
+    {
+        cout << "Test 8 Accepted\n";
+    }
+    if (BigReal("-500.5") + BigReal("500.5") == BigReal("0.0"))
+    {
+        cout << "Test 9 Accepted\n";
+    }
+    if (BigReal("1000.5") - BigReal("1000.5") == BigReal("0"))
+    {
+        cout << "Test 10 Accepted\n";
+    }
+    if (BigReal("550.5") - BigReal("500.5") == BigReal("50"))
+    {
+        cout << "Test 11 Accepted\n";
+    }
+    // if (BigReal("550.5") - BigReal(500.5) == BigReal("50"))
     // {
-    //     cout << "hehe55";
+    //     cout << "Test 12 Accepted\n";
     // }
-    // else
-    // {
-    //     cout << "hehe44";
-    // }   
 
-    // double num = 250.5556656;
-    // BigReal a1(num);
-
-    // double num = 250.5556656;
-    // BigReal a1(num);
-    // BigReal a2(122.5);
-    // // BigReal a3();
-    // BigReal pls = (a1 + a2);
-
-    // BigDecimalInt aa("1");
-    // BigDecimalInt bb("2");
-    // BigDecimalInt cc = aa - bb;
-    // cout << cc <<'\n';
-
-    BigReal x("1.0000");
-    BigReal y("9.5682");
-    BigReal pls = x + y;
-    BigReal pls1 = x - y;
-    cout << "X + Y = " << pls << '\n';
-    cout << "sizeofX: " << x.size() << endl;
-    cout << "sizeofY: " << y.size() << endl; 
-    cout << "X - Y = " << pls1 << '\n';
-    cout << '\n';
-    BigReal z;
-    cin >> z;
-    cout << z << '\n';
-    BigReal min = x - y;
+    // 00555 == 555 false???
+    // definsive
+    
+    // BigReal pls = x + y;
+    // BigReal pls1 = x - y;
+    // cout << "X + Y = " << pls << '\n';
+    // cout << "sizeofX: " << x.size() << endl;
+    // cout << "sizeofY: " << y.size() << endl;
+    // cout << "X - Y = " << pls1 << '\n';
+    // cout << '\n';
+    // BigReal z;
+    // cin >> z;
+    // cout << z << '\n';
+    // BigReal min = x - y;
 
     // BigReal x("0.3");
     // BigReal y("1.7");
