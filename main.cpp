@@ -77,46 +77,14 @@ int main()
     {
         cout << "Test 15 Accepted\n";
     }
-
-    if (BigReal("1") + BigReal("9.5682") == BigReal("10.5682"))
+    if (BigReal("-500.999") - BigReal("0000550.999") == BigReal("-1051.998"))
     {
-        cout << "Test 16 Accepted\n";
+        cout << "Test .. Accepted\n";
     }
-
-    if (BigReal("-0.986426") + BigReal("-4.5686355") == BigReal("-5.5550615"))
+    if (BigReal("500.9990000") + BigReal("550.999") == BigReal("+1051.9980000"))
     {
-        cout << "Test 17 Accepted\n";
-    }
-
-    if (BigReal("-1.123") - BigReal("9.923") == BigReal("-11.046"))
-    {
-        cout << "Test 18 Accepted\n";
-    }
-
-    
-
-
-    // 00555 == 555 false??? // i was sending it to BigDecimalInt to deal with this
-    // definsive
-    
-    // BigReal pls = x + y;
-    // BigReal pls1 = x - y;
-    // cout << "X + Y = " << pls << '\n';
-    // cout << "sizeofX: " << x.size() << endl;
-    // cout << "sizeofY: " << y.size() << endl;
-    // cout << "X - Y = " << pls1 << '\n';
-    // cout << '\n';
-    // BigReal z;
-    // cin >> z;
-    // cout << z << '\n';
-    // BigReal min = x - y;
-
-    // BigReal x("0.3");
-    // BigReal y("1.7");
-    // BigReal pls = x + y;
-    // cout << '\n';
-    // BigReal min = x - y;
-
+        cout << "Test ... Accepted\n";
+    } 
     //   stringstream realnStr, sstr;
 
     //   cout << "1.5544519" << endl;
