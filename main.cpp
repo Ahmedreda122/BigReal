@@ -55,6 +55,7 @@ int main()
     {
         cout << "Test 10 Accepted\n";
     }
+
     if (BigReal("550.5") - BigReal("500.5") == BigReal("50"))
     {
         cout << "Test 11 Accepted\n";
@@ -76,6 +77,23 @@ int main()
     {
         cout << "Test 15 Accepted\n";
     }
+
+    if (BigReal("1") + BigReal("9.5682") == BigReal("10.5682"))
+    {
+        cout << "Test 16 Accepted\n";
+    }
+
+    if (BigReal("-0.986426") + BigReal("-4.5686355") == BigReal("-5.5550615"))
+    {
+        cout << "Test 17 Accepted\n";
+    }
+
+    if (BigReal("-1.123") - BigReal("9.923") == BigReal("-11.046"))
+    {
+        cout << "Test 18 Accepted\n";
+    }
+
+    
 
 
     // 00555 == 555 false??? // i was sending it to BigDecimalInt to deal with this

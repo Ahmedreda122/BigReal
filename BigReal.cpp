@@ -53,14 +53,13 @@ BigReal::BigReal(string realNumber)
     // Getting dot index in the realNumber, start searching from the first character, returning -1 if not found
     int dotPos = realNumber.find('.');
 
-    // -00099999
     for (int i = 0; i < realNumber.size(); ++i)
     {
       if (realNumber[i] == '0' && streak == true)
       {
         ++cursor;
       }
-      else if (realNumber[i] == '-')
+      else if (realNumber[i] == '-' || realNumber[i] == '+')
       {
         continue;
       }
@@ -73,18 +72,31 @@ BigReal::BigReal(string realNumber)
 
     if (cursor > 0)
     {
-      // Erasing zeros from the beginning of the string, "cursor" of times
-      realNumber.erase(0, cursor);
+      if (realNumber[0] == '+' || realNumber[0] == '-')
+      {
+        // Erasing zeros from the beginning of the string, "cursor" of times
+        realNumber.erase(1, cursor);
+      }
+      else
+      {
+        // Erasing zeros from the beginning of the string, "cursor" of times
+        realNumber.erase(0, cursor);
+      }
+
       if (realNumber == "")
       {
         realNumber = "0";
       }
-      else if (realNumber == ".0")
+      else if (realNumber[0] == '.')
       {
-        realNumber = "0.0";
+        realNumber = "0" + realNumber;
+      }
+      else if ((realNumber[0] == '-' || realNumber[0] == '+') && realNumber[1] == '.')
+      { 
+        realNumber.insert(1,"0");
       }
     }
-    
+
     this->fullNum = realNumber;
     // if the dot is not exist in realNumber
     if (dotPos == -1)
