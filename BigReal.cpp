@@ -48,7 +48,7 @@ BigReal::BigReal(string realNumber)
 
   if (checkValid(realNumber))
   {
-    string sign;
+    string sign = "+";
 
     bool streak = true;
     int cursor = 0;
@@ -60,11 +60,12 @@ BigReal::BigReal(string realNumber)
       sign = "-";
       realNumber.erase(0, 1);
     }
-    else
+    else if (realNumber[0] == '+')
     {
-      sign = "+";
+      //default sign is +
+      realNumber.erase(0, 1);
     }
-    
+
     //Deleting left zeros from integer part // 000099999.5
     for (int i = 0; i < realNumber.size(); ++i)
     {
@@ -86,7 +87,8 @@ BigReal::BigReal(string realNumber)
 
       if (realNumber == "")
       {
-        realNumber = "0";
+        realNumber = "0.0";
+        dotPos = 1;
       }
       // 0 + .569
       else if (realNumber[0] == '.')
@@ -118,14 +120,9 @@ BigReal::BigReal(string realNumber)
       // Erasing zeros from lastIndex - cursor + 1, "cursor" of times
       realNumber.erase(((lastIndex + 1) - cursor), cursor);
 
-      if (realNumber[lastIndex] == '.')
+      if (realNumber[realNumber.size() - 1] == '.')
       {
-        realNumber += '0';
-      }
-      // 0 + .00
-      else if (realNumber[0] == '.')
-      {
-        realNumber = "0.0";
+        realNumber += "0";
       }
     }
 
