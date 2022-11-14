@@ -10,6 +10,7 @@
 
 int main()
 {
+
     BigReal num1("999.6600");
     BigReal num2("+9999.77");
     BigReal num3(BigReal("400"));
@@ -77,14 +78,31 @@ int main()
     {
         cout << "Test 15 Accepted\n";
     }
+
+    if (BigReal("1") + BigReal("9.5682") == BigReal("10.5682"))
+    {
+        cout << "Test 16 Accepted\n";
+    }
+
+    if (BigReal("-0.986426") + BigReal("-4.5686355") == BigReal("-5.5550615"))
+    {
+        cout << "Test 17 Accepted\n";
+    }
+
+    if (BigReal("-1.123") - BigReal("9.923") == BigReal("-11.046"))
+    {
+        cout << "Test 18 Accepted\n";
+    }
+
     if (BigReal("-500.999") - BigReal("0000550.999") == BigReal("-1051.998"))
     {
-        cout << "Test .. Accepted\n";
+        cout << "Test 19 Accepted\n";
     }
     if (BigReal("500.9990000") + BigReal("550.999") == BigReal("+1051.9980000"))
     {
-        cout << "Test ... Accepted\n";
+        cout << "Test 20 Accepted\n";
     } 
+    
     //   stringstream realnStr, sstr;
 
     //   cout << "1.5544519" << endl;

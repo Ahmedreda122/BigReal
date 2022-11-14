@@ -48,20 +48,29 @@ BigReal::BigReal(string realNumber)
 
   if (checkValid(realNumber))
   {
+    string sign;
+
     bool streak = true;
     int cursor = 0;
     // Getting dot index in the realNumber, start searching from the first character, returning -1 if not found
     int dotPos = realNumber.find('.');
 
+    if (realNumber[0] == '-')
+    {
+      sign = "-";
+      realNumber.erase(0, 1);
+    }
+    else
+    {
+      sign = "+";
+    }
+    
+    //Deleting left zeros from integer part // 000099999.5
     for (int i = 0; i < realNumber.size(); ++i)
     {
       if (realNumber[i] == '0' && streak == true)
       {
         ++cursor;
-      }
-      else if (realNumber[i] == '-' || realNumber[i] == '+')
-      {
-        continue;
       }
       else
       {
@@ -72,28 +81,51 @@ BigReal::BigReal(string realNumber)
 
     if (cursor > 0)
     {
-      if (realNumber[0] == '+' || realNumber[0] == '-')
-      {
-        // Erasing zeros from the beginning of the string, "cursor" of times
-        realNumber.erase(1, cursor);
-      }
-      else
-      {
-        // Erasing zeros from the beginning of the string, "cursor" of times
-        realNumber.erase(0, cursor);
-      }
+      // Erasing zeros from the beginning of the string, "cursor" of times
+      realNumber.erase(0, cursor);
 
       if (realNumber == "")
       {
         realNumber = "0";
       }
+      // 0 + .569
       else if (realNumber[0] == '.')
       {
         realNumber = "0" + realNumber;
       }
-      else if ((realNumber[0] == '-' || realNumber[0] == '+') && realNumber[1] == '.')
-      { 
-        realNumber.insert(1,"0");
+    }
+
+    streak = true;
+    cursor = 0;
+
+    // Deleting right zeros from fraction part 1.5000
+    for (int i = realNumber.size() - 1; i >= 0; --i)
+    {
+      if (realNumber[i] == '0' && streak == true)
+      {
+        ++cursor;
+      }
+      else
+      {
+        streak = false;
+        break;
+      }
+    }
+
+    if (cursor > 0)
+    {
+      int lastIndex = realNumber.size() - 1;
+      // Erasing zeros from lastIndex - cursor + 1, "cursor" of times
+      realNumber.erase(((lastIndex + 1) - cursor), cursor);
+
+      if (realNumber[lastIndex] == '.')
+      {
+        realNumber += '0';
+      }
+      // 0 + .00
+      else if (realNumber[0] == '.')
+      {
+        realNumber = "0.0";
       }
     }
 
@@ -103,11 +135,9 @@ BigReal::BigReal(string realNumber)
     {
       fullNum += ".0";
     }
-
-    if (isdigit(fullNum[0]))
-    {
-      fullNum.insert(0, "+");
-    }
+    // Returning the sign back to fullNum(realNumber)
+    fullNum.insert(0, sign);
+    
   }
   else
   {
@@ -301,7 +331,7 @@ istream &operator>>(istream &in, BigReal &num)
   }
   else
   {
-    cout << "Cannot set value to BigReal Class" << endl;
+    cout << "Cannot set this value (" << dataIn << ") to BigReal Class" << endl;
   }
   return in;
 }
