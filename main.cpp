@@ -12,9 +12,11 @@ int main()
 {
     BigReal num1("999.6600");
     BigReal num2("+9999.77");
+    BigReal num3(BigReal("400"));
+
     BigReal input;
 
-    cout << "enter a BigReal Numer to Test istream:" << '\n';
+    cout << "Enter a BigReal Numer to Test istream:" << '\n';
     cin >> input;
     cout << "Test 1 Accepted\n";
 
@@ -57,10 +59,13 @@ int main()
     {
         cout << "Test 11 Accepted\n";
     }
-    // if (BigReal("550.5") - BigReal(500.5) == BigReal("50"))
-    // {
-    //     cout << "Test 12 Accepted\n";
-    // }
+    if (BigReal("550.5") - BigReal(500.5) == BigReal("50"))
+    {
+        cout << "Test 12 Accepted\n";
+    }
+
+    
+
 
     // 00555 == 555 false???
     // definsive

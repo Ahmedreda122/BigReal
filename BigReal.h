@@ -14,6 +14,7 @@ class BigReal
 {
 private:
     string fullNum;
+    bool checkValid(string realNumber);
 public:
     BigReal(double realNumber = 0.0); // Default constructor
     BigReal(string realNumber);
