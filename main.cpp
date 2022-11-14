@@ -64,10 +64,21 @@ int main()
         cout << "Test 12 Accepted\n";
     }
 
-    
+    BigReal("5.5.0.5");
+    cout << ", Test 13 Accepted\n";
+
+    if (BigReal("0000999.4") == BigReal("999.4"))
+    {
+        cout << "Test 14 Accepted\n";
+    }
+
+    if (BigReal("00000.0") == BigReal("0"))
+    {
+        cout << "Test 15 Accepted\n";
+    }
 
 
-    // 00555 == 555 false???
+    // 00555 == 555 false??? // i was sending it to BigDecimalInt to deal with this
     // definsive
     
     // BigReal pls = x + y;
