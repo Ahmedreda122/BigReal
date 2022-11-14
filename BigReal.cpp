@@ -37,32 +37,37 @@ BigReal::BigReal(BigDecimalInt bigInteger) // sign ????
   fullNum += ".0";
 }
 
-BigReal::BigReal(string realNumber) : fullNum(realNumber)
+BigReal::BigReal(string realNumber)
 {
   cout << "<---------Default Constructor--------->" << endl;
   // if there is more than one dot in the input string
-  if (count(fullNum.begin(), fullNum.end(), '.') > 1)
+  if (count(realNumber.begin(), realNumber.end(), '.') > 1)
   {
     cout << "INVALID INPUT";
-    // return;
-    exit(0);
+    return;
   }
-
-  // if (other.fullNum[0] >= '0' && other.fullNum[0] <= '9')
-  // {
-  //   other.fullNum.insert(0, "+");
-  // }
-  // Getting dot index in the realNumber, start searching from the first character, returning -1 if not found
-  int dotPos = realNumber.find('.');
-
-  // if the dot is not exist in realNumber
-  if (dotPos == -1)
+  regex validStr("[-+]?[0-9]+(.[0-9]+)?");
+  if (regex_match(realNumber, validStr))
   {
-    fullNum += ".0";
+    // Getting dot index in the realNumber, start searching from the first character, returning -1 if not found
+    int dotPos = realNumber.find('.');
+
+    this->fullNum = realNumber;
+    // if the dot is not exist in realNumber
+    if (dotPos == -1)
+    {
+      fullNum += ".0";
+    }
+
+    if (fullNum[0] >= '0' && fullNum[0] <= '9' )//isdigit(fullNum[0]))
+    {
+      fullNum.insert(0, "+");
+    }
   }
-  if (fullNum[0] >= '0' && fullNum[0] <= '9' )//isdigit(fullNum[0]))
+  else
   {
-    fullNum.insert(0, "+");
+    cout << "INVALID INPUT";
+    return;
   }
 }
 
