@@ -38,7 +38,7 @@ BigReal::BigReal(BigDecimalInt bigInteger) // sign ????
 
 BigReal::BigReal(string realNumber)
 {
-  
+
   // if there is more than one dot in the input string
   if (count(realNumber.begin(), realNumber.end(), '.') > 1)
   {
@@ -84,7 +84,7 @@ BigReal::BigReal(string realNumber)
         realNumber = "0.0";
       }
     }
-    
+
     this->fullNum = realNumber;
     // if the dot is not exist in realNumber
     if (dotPos == -1)
@@ -92,7 +92,7 @@ BigReal::BigReal(string realNumber)
       fullNum += ".0";
     }
 
-    if(isdigit(fullNum[0]))
+    if (isdigit(fullNum[0]))
     {
       fullNum.insert(0, "+");
     }
@@ -197,6 +197,11 @@ BigReal BigReal::operator+(BigReal other)
   {
     finalResult.insert(dot, ".");
   }
+  else if ((result.size()) < maximum)
+  {
+    --dot;
+    finalResult.insert(--dot, ".");
+  }
   else
   {
     finalResult.insert(--dot, ".");
@@ -270,7 +275,11 @@ BigReal BigReal ::operator-(BigReal other)
     finalResult = "0";
     return BigReal(finalResult);
   }
-  if ((result.size()) < maximum)
+  if ((result.size()) > maximum)
+  {
+    finalResult.insert(dot, ".");
+  }
+  else if ((result.size()) < maximum)
   {
     --dot;
     finalResult.insert(--dot, ".");
@@ -311,7 +320,6 @@ istream &operator>>(istream &in, BigReal &num)
   {
     cout << "Cannot set value to BigReal Class" << endl;
   }
-  
   return in;
 }
 
