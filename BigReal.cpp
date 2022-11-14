@@ -143,15 +143,29 @@ string erase_dot(string &target)
 
 BigReal BigReal::operator+(BigReal other)
 {
-  string tmpFullNum = fullNum;
+
+  string tmpFullNum = fullNum; // to avoid changing in fullNum (private attribute)
   long long dotIndex1 = tmpFullNum.find(".");
   long long dotIndex2 = other.fullNum.find(".");
   string fracPart1 = tmpFullNum.substr(dotIndex1 + 1);
   string fracPart2 = other.fullNum.substr(dotIndex2 + 1);
-  long long first = fracPart1.size();
-  long long second = fracPart2.size();
+  long long tmpDot;
+  long long first = fracPart1.size();// to add zeros to fracPart then first++.
+  long long second = fracPart2.size();// to add zeros to second fracPart then second++
+  long long first1 = fracPart1.size();// to know where dot sign is.
+  long long second2 = fracPart2.size();// to know where dot sign is.
   long long bigger = max(first, second);
-  while (first < bigger)
+
+  if (bigger == first1)// assign tmpDot corosponding to the biggest size in fracPart
+  {
+    tmpDot = first1;
+  }
+  else
+  {
+    tmpDot = second2;
+  }
+
+  while (first < bigger)// adding zeros to fracPart
   {
     tmpFullNum += '0';
     first++;
@@ -162,50 +176,24 @@ BigReal BigReal::operator+(BigReal other)
     second++;
   }
 
-  // cout << "1 " << dotIndex1 << '\n';
-  // cout << "2 " << dotIndex2 << '\n';
   string target1 = erase_dot(tmpFullNum);
   string target2 = erase_dot(other.fullNum);
-  // cout << target1 << '\n'<< target2 << '\n';
   BigDecimalInt firstNum(target1), secondNum(target2), result;
   string finalResult;
-  result = firstNum + secondNum;
-  long long size1 = firstNum.size();
-  long long size2 = secondNum.size();
-  long long maximum = max(size1, size2);
-  long long dot;
-  if (maximum == size1)
-  {
-    dot = dotIndex1;
-  }
-  else
-  {
-    dot = dotIndex2;
-  }
-  finalResult = result.getNumber();
-  // cout << "finalResult: " << finalResult << '\n';
-  // cout << "SZ1: " << size1 << '\n';
-  // cout << "SZ2: " << size2 << '\n';
-  // cout << "(result.size()): " << (result.size()) << '\n';
+
+  result = firstNum + secondNum; // to use their operator +
+  finalResult = result.getNumber(); // note: getNumber() doesnt return the sign
+                                    // note: BigDecimalInt result sotres the sign
+
   if (finalResult == "0")
   {
     finalResult = "0";
     return BigReal(finalResult);
   }
-
-  if ((result.size()) > maximum)
-  {
-    finalResult.insert(dot, ".");
-  }
-  else if ((result.size()) < maximum)
-  {
-    --dot;
-    finalResult.insert(--dot, ".");
-  }
-  else
-  {
-    finalResult.insert(--dot, ".");
-  }
+  // adding dot as a reverse order
+  reverse(finalResult.begin(), finalResult.end()); // reverse
+  finalResult.insert(tmpDot, ".");
+  reverse(finalResult.begin(), finalResult.end());// reverse it back;
 
   if (!result.sign())
   {
@@ -218,77 +206,61 @@ BigReal BigReal::operator+(BigReal other)
 
   return BigReal(finalResult);
 }
+
 BigReal BigReal ::operator-(BigReal other)
 {
-  string tmpFullNum = fullNum;
+
+  string tmpFullNum = fullNum; // to avoid changing in fullNum (private attribute)
   long long dotIndex1 = tmpFullNum.find(".");
   long long dotIndex2 = other.fullNum.find(".");
   string fracPart1 = tmpFullNum.substr(dotIndex1 + 1);
   string fracPart2 = other.fullNum.substr(dotIndex2 + 1);
-  long long first = fracPart1.size();
-  long long second = fracPart2.size();
+  long long tmpDot;
+  long long first = fracPart1.size();// to add zeros to fracPart then first++.
+  long long second = fracPart2.size();// to add zeros to second fracPart then second++.
+  long long first1 = fracPart1.size();// to know where dot sign is.
+  long long second2 = fracPart2.size();// to know where dot sign is.
   long long bigger = max(first, second);
 
-  while (first < bigger)
+  if (bigger == first1) // assign tmpDot corosponding to the biggest size in fracPart
+  {
+    tmpDot = first1;
+  }
+  else
+  {
+    tmpDot = second2;
+  }
+
+  while (first < bigger) // adding zeros to fracPart
   {
     tmpFullNum += '0';
     first++;
   }
-
   while (second < bigger)
   {
     other.fullNum += '0';
     second++;
   }
 
-  // cout << "1 " << dotIndex1 << '\n';
-  // cout << "2 " << dotIndex2 << '\n';
-
   string target1 = erase_dot(tmpFullNum);
   string target2 = erase_dot(other.fullNum);
-
-  // cout << target1 << '\n'
-  //  << target2 << '\n';
   BigDecimalInt firstNum(target1), secondNum(target2), result;
   string finalResult;
-  result = firstNum - secondNum;
-  long long size1 = firstNum.size();
-  long long size2 = secondNum.size();
-  long long maximum = max(size1, size2);
-  long long dot;
-  if (maximum == size1)
-  {
-    dot = dotIndex1;
-  }
-  else
-  {
-    dot = dotIndex2;
-  }
-  finalResult = result.getNumber();
-  // cout << "finalResult: " << finalResult << '\n';
-  // cout << "SZ1: " << size1 << '\n';
-  // cout << "SZ2: " << size2 << '\n';
-  // cout << "(result.size()): " << (result.size()) << '\n';
+
+  result = firstNum - secondNum; // to use their operator - 
+  finalResult = result.getNumber(); // note: getNumber() doesnt return the sign
+                                    // note: BigDecimalInt result sotres the sign
 
   if (finalResult == "0")
   {
     finalResult = "0";
     return BigReal(finalResult);
   }
-  if ((result.size()) > maximum)
-  {
-    finalResult.insert(dot, ".");
-  }
-  else if ((result.size()) < maximum)
-  {
-    --dot;
-    finalResult.insert(--dot, ".");
-  }
-  else
-  {
-    finalResult.insert(--dot, ".");
-  }
-  // finalResult.insert(--dotIndex2, ".");
+
+  // adding dot as a reverse order
+  reverse(finalResult.begin(), finalResult.end());//reverse
+  finalResult.insert(tmpDot, ".");
+  reverse(finalResult.begin(), finalResult.end()); // reverse it back;
 
   if (result.sign())
   {
@@ -298,7 +270,6 @@ BigReal BigReal ::operator-(BigReal other)
   {
     finalResult.insert(0, "-");
   }
-
   return BigReal(finalResult);
 }
 

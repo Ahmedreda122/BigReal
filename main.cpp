@@ -76,36 +76,14 @@ int main()
     {
         cout << "Test 15 Accepted\n";
     }
-    if (BigReal("-500.999") - BigReal("550.999") == BigReal("-1051.998"))
+    if (BigReal("-500.999") - BigReal("0000550.999") == BigReal("-1051.998"))
     {
         cout << "Test .. Accepted\n";
     }
-    if (BigReal("500.999") + BigReal("550.999") == BigReal("+1051.998"))
+    if (BigReal("500.9990000") + BigReal("550.999") == BigReal("+1051.9980000"))
     {
         cout << "Test ... Accepted\n";
-    }
-
-    // 00555 == 555 false??? // i was sending it to BigDecimalInt to deal with this
-    // definsive
-
-    // BigReal pls = x + y;
-    // BigReal pls1 = x - y;
-    // cout << "X + Y = " << pls << '\n';
-    // cout << "sizeofX: " << x.size() << endl;
-    // cout << "sizeofY: " << y.size() << endl;
-    // cout << "X - Y = " << pls1 << '\n';
-    // cout << '\n';
-    // BigReal z;
-    // cin >> z;
-    // cout << z << '\n';
-    // BigReal min = x - y;
-
-    // BigReal x("0.3");
-    // BigReal y("1.7");
-    // BigReal pls = x + y;
-    // cout << '\n';
-    // BigReal min = x - y;
-
+    } 
     //   stringstream realnStr, sstr;
 
     //   cout << "1.5544519" << endl;
