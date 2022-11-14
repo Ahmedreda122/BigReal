@@ -16,19 +16,26 @@ BigReal::BigReal(double realNumber)
       This sequence of characters can be accessed directly as a string object, using member str.
       Characters can be inserted and/or extracted from the stream using any operation allowed on output streams like <<, >>.
     */
+
     stringstream realnSStr;
     // Sending the whole double num (without rounding up or off) to the stream to convert it into string buffer
     realnSStr << setprecision(15) << realNumber;
     // Gets its standard string object (from string stream) and sending it to the string constructor to deal with it
+    // if (realnSStr.str()[0] >= '0' && realnSStr.str()[0] <= '9') // isdigit(fullNum[0]))
+    // {
+    //   realnSStr.seekp(0);
+    //   realnSStr << "+" << setprecision(15) << realNumber;;
+      
+    // }
+    // cout << realnSStr.str() << endl;
     BigReal(realnSStr.str());
   }
-
 }
 BigReal::BigReal(BigDecimalInt bigInteger) // sign ????
 {
   if (bigInteger.sign())
   {
-    fullNum = "+" + bigInteger.getNumber();  
+    fullNum = "+" + bigInteger.getNumber();
   }
   else
   {
@@ -89,11 +96,11 @@ BigReal::BigReal(BigReal &&other)
 BigReal &BigReal::operator=(BigReal &&other)
 {
   cout << "<---------Move Assigment--------->" << endl;
-  fullNum = move(other.fullNum );
+  fullNum = move(other.fullNum);
   return *this;
 }
 
-BigReal& BigReal::operator=(BigReal &other)
+BigReal &BigReal::operator=(BigReal &other)
 {
   if (this != &other)
   {
@@ -129,11 +136,11 @@ BigReal BigReal::operator+(BigReal other)
     second++;
   }
 
-  cout << "1 " << dotIndex1 << '\n';
-  cout << "2 " << dotIndex2 << '\n';
+  // cout << "1 " << dotIndex1 << '\n';
+  // cout << "2 " << dotIndex2 << '\n';
   string target1 = erase_dot(tmpFullNum);
   string target2 = erase_dot(other.fullNum);
-  cout << target1 << '\n'<< target2 << '\n';
+  // cout << target1 << '\n'<< target2 << '\n';
   BigDecimalInt firstNum(target1), secondNum(target2), result;
   string finalResult;
   result = firstNum + secondNum;
@@ -150,11 +157,17 @@ BigReal BigReal::operator+(BigReal other)
     dot = dotIndex2;
   }
   finalResult = result.getNumber();
-  cout << "finalResult: " << finalResult << '\n';
-  cout << "SZ1: " << size1 << '\n';
-  cout << "SZ2: " << size2 << '\n';
-  cout << "(result.size()): " << (result.size()) << '\n';
-  if ((result.size()) > maximum) // +1 to count the sign
+  // cout << "finalResult: " << finalResult << '\n';
+  // cout << "SZ1: " << size1 << '\n';
+  // cout << "SZ2: " << size2 << '\n';
+  // cout << "(result.size()): " << (result.size()) << '\n';
+  if (finalResult == "0")
+  {
+    finalResult = "0";
+    return BigReal(finalResult);
+  }
+
+  if ((result.size()) > maximum)
   {
     finalResult.insert(dot, ".");
   }
@@ -162,7 +175,7 @@ BigReal BigReal::operator+(BigReal other)
   {
     finalResult.insert(--dot, ".");
   }
-  
+
   if (!result.sign())
   {
     finalResult.insert(0, "-");
@@ -171,7 +184,7 @@ BigReal BigReal::operator+(BigReal other)
   {
     finalResult.insert(0, "+");
   }
-  
+
   return BigReal(finalResult);
 }
 BigReal BigReal ::operator-(BigReal other)
@@ -197,37 +210,60 @@ BigReal BigReal ::operator-(BigReal other)
     second++;
   }
 
-  cout << "1 " << dotIndex1 << '\n';
-  cout << "2 " << dotIndex2 << '\n';
+  // cout << "1 " << dotIndex1 << '\n';
+  // cout << "2 " << dotIndex2 << '\n';
 
   string target1 = erase_dot(tmpFullNum);
   string target2 = erase_dot(other.fullNum);
-  long long size1 = target1.size();
-  long long size2 = target2.size();
 
-  cout << target1 << '\n'
-       << target2 << '\n';
+  // cout << target1 << '\n'
+  //  << target2 << '\n';
   BigDecimalInt firstNum(target1), secondNum(target2), result;
   string finalResult;
   result = firstNum - secondNum;
-
+  long long size1 = firstNum.size();
+  long long size2 = secondNum.size();
+  long long maximum = max(size1, size2);
+  long long dot;
+  if (maximum == size1)
+  {
+    dot = dotIndex1;
+  }
+  else
+  {
+    dot = dotIndex2;
+  }
   finalResult = result.getNumber();
-  cout << "finalResult: " << finalResult << '\n';
-  cout << "SZ1: " << size1 << '\n';
-  cout << "SZ2: " << size2 << '\n';
+  // cout << "finalResult: " << finalResult << '\n';
+  // cout << "SZ1: " << size1 << '\n';
+  // cout << "SZ2: " << size2 << '\n';
+  // cout << "(result.size()): " << (result.size()) << '\n';
 
-  finalResult.insert(--dotIndex2, ".");
-
+  if (finalResult == "0")
+  {
+    finalResult = "0";
+    return BigReal(finalResult);
+  }
+  if ((result.size()) < maximum)
+  {
+    --dot;
+    finalResult.insert(--dot, ".");
+  }
+  else
+  {
+    finalResult.insert(--dot, ".");
+  }
+  // finalResult.insert(--dotIndex2, ".");
 
   if (result.sign())
   {
     finalResult.insert(0, "+");
   }
   else
-  { 
+  {
     finalResult.insert(0, "-");
   }
-  
+
   return BigReal(finalResult);
 }
 
@@ -279,7 +315,7 @@ bool BigReal::operator<(BigReal anotherReal)
 {
   int dotPos1 = fullNum.find('.', 0);
 
-  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)
   BigDecimalInt intPart1 = move(BigDecimalInt(fullNum.substr(0, dotPos1)));
 
   // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
@@ -287,13 +323,13 @@ bool BigReal::operator<(BigReal anotherReal)
 
   int dotPos2 = anotherReal.fullNum.find('.', 0);
 
-  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)
   BigDecimalInt intPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(0, dotPos2)));
 
   // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
   BigDecimalInt fracPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(dotPos2 + 1)));
 
-  // me < another 
+  // me < another
   if (intPart1 < intPart2)
   {
     return true;
@@ -319,7 +355,7 @@ bool BigReal::operator<(BigReal anotherReal)
       return false;
     }
   }
-  // 500.5 < 500.6 
+  // 500.5 < 500.6
   else if (intPart1 == intPart2 && intPart1.sign() == 1 && intPart2.sign() == 1)
   {
     if (fracPart1 < fracPart2)
@@ -339,11 +375,11 @@ bool BigReal::operator<(BigReal anotherReal)
   return false;
 }
 
-bool BigReal::operator> (BigReal anotherReal)
+bool BigReal::operator>(BigReal anotherReal)
 {
   int dotPos1 = fullNum.find('.', 0);
 
-  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)
   BigDecimalInt intPart1 = move(BigDecimalInt(fullNum.substr(0, dotPos1)));
 
   // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
@@ -351,13 +387,13 @@ bool BigReal::operator> (BigReal anotherReal)
 
   int dotPos2 = anotherReal.fullNum.find('.', 0);
 
-  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)  
+  // Getting the interger part of the number by substracting it from the beginning(index 0) until the dot (before dotPos index)
   BigDecimalInt intPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(0, dotPos2)));
 
   // Getting the fractional part of the number by substracting it from the the dotPos + 1 (the index after the dot) till the end of the number
   BigDecimalInt fracPart2 = move(BigDecimalInt(anotherReal.fullNum.substr(dotPos2 + 1)));
 
-  // me > another 
+  // me > another
   if (intPart1 < intPart2)
   {
     return false;
@@ -383,7 +419,7 @@ bool BigReal::operator> (BigReal anotherReal)
       return false;
     }
   }
-  // 500.5 > 500.6 
+  // 500.5 > 500.6
   else if (intPart1 == intPart2 && intPart1.sign() == 1 && intPart2.sign() == 1)
   {
     if (fracPart1 < fracPart2)
@@ -402,37 +438,3 @@ bool BigReal::operator> (BigReal anotherReal)
 
   return false;
 }
-
-
-
-
-
-
-
-  // // -1.0 < 5 
-  // if (fullNum[0] == '-' && anotherReal.fullNum[0] == '+')
-  // {
-  //   return true;
-  // }
-  // // 1.0 < -5 
-  // else if (fullNum[0] == '+' && anotherReal.fullNum[0] == '-')
-  // {
-  //   return false;
-  // }
-  // else if (fullNum[0] == '-' && anotherReal.fullNum[0] == '-')
-  // {
-  //   if (size() == anotherReal.size())
-  //   {
-  //     return (fullNum < anotherReal.fullNum);
-  //   }
-  //   // 1.55555 < 50.0
-  //   else if (size() > anotherReal.size())
-  //   {
-  //     long dotIndex1 =  fullNum.find(".");
-  //     long dotIndex2 =  anotherReal.fullNum.find(".");
-  //     string intStr1 = fullNum.substr(0 , dotIndex1);
-  //     string fracPart1 = fullNum.substr(dotIndex1 + 1);
-  //     string intStr2 = anotherReal.fullNum.substr(0, dotIndex2);
-  //     string fracPart2 = anotherReal.fullNum.substr(dotIndex2 + 1);
-  //   }
-  // }
