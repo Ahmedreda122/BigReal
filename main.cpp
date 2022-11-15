@@ -56,7 +56,6 @@ int main()
     {
         cout << "Test 10 Accepted\n";
     }
-
     if (BigReal("550.5") - BigReal("500.5") == BigReal("50"))
     {
         cout << "Test 11 Accepted\n";
@@ -65,7 +64,6 @@ int main()
     {
         cout << "Test 12 Accepted\n";
     }
-
     BigReal("5.5.0.5");
     cout << ", Test 13 Accepted\n";
 

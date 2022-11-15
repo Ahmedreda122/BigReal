@@ -1,9 +1,3 @@
-// FCAI – OOP – 2022 - Assignment 2
-// Program: BigReal Class
-// Author: Abdallah Hussein Ibrahim Hussein - Ahmad Reda Bayoumi
-// IDs: 20210235 - 20210019
-// Date: November 2022
-// ...........................................................................................
 #include "BigReal.h"
 
 BigReal::BigReal(double realNumber)
@@ -117,45 +111,48 @@ BigReal::BigReal(string realNumber)
         realNumber = "0" + realNumber;
       }
     }
+    
 
-    streak = true;
-    cursor = 0;
+    // if there is a dot in the number
+    if (dotPos != -1)
+    {    
+      streak = true;
+      cursor = 0;
+      // Deleting right zeros from fraction part 1.5000
+      for (int i = realNumber.size() - 1; i >= 0; --i)
+      {
+        if (realNumber[i] == '0' && streak == true)
+        {
+          ++cursor;
+        }
+        else
+        {
+          streak = false;
+          break;
+        }
+      }
 
-    // Deleting right zeros from fraction part 1.5000
-    for (int i = realNumber.size() - 1; i >= 0; --i)
-    {
-      if (realNumber[i] == '0' && streak == true)
+      if (cursor > 0)
       {
-        ++cursor;
+        // Erasing zeros from lastIndex - cursor + 1, "cursor" of times // 0.5000
+        realNumber.erase((realNumber.size() - cursor), cursor);
+
+        if (realNumber[realNumber.size() - 1] == '.')
+        {
+          realNumber += "0";
+        }
       }
-      else
-      {
-        streak = false;
-        break;
-      }
+
     }
-
-    if (cursor > 0)
+    else //if (dotPos == -1) // if the dot is not exist in realNumber
     {
-      int lastIndex = realNumber.size() - 1;
-      // Erasing zeros from lastIndex - cursor + 1, "cursor" of times
-      realNumber.erase(((lastIndex + 1) - cursor), cursor);
-
-      if (realNumber[realNumber.size() - 1] == '.')
-      {
-        realNumber += "0";
-      }
+      realNumber += ".0";
     }
-
+    
     this->fullNum = realNumber;
-    // if the dot is not exist in realNumber
-    if (dotPos == -1)
-    {
-      fullNum += ".0";
-    }
+
     // Returning the sign back to fullNum(realNumber)
     fullNum.insert(0, sign);
-    
   }
   else
   {
@@ -166,7 +163,7 @@ BigReal::BigReal(string realNumber)
 
 BigReal::BigReal(const BigReal &other)
 {
-  cout << "<---------Copy Constructor--------->" << endl;
+  //cout << "<---------Copy Constructor--------->" << endl;
   if (this != &other)
   {
     fullNum = other.fullNum;
@@ -175,13 +172,13 @@ BigReal::BigReal(const BigReal &other)
 
 BigReal::BigReal(BigReal &&other)
 {
-  cout << "<---------Move Constructor--------->" << endl;
+  //cout << "<---------Move Constructor--------->" << endl;
   fullNum = move(other.fullNum);
 }
 
 BigReal &BigReal::operator=(BigReal &&other)
 {
-  cout << "<---------Move Assigment--------->" << endl;
+  //cout << "<---------Move Assigment--------->" << endl;
   fullNum = move(other.fullNum);
   return *this;
 }
