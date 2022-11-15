@@ -45,26 +45,41 @@ BigReal::BigReal(string realNumber)
     cout << "INVALID INPUT";
     return;
   }
+  
+  if (realNumber == ".")
+  {
+    cout << "INVALID INPUT";
+    return;
+  }
+
+  string sign = "+";
+
+  if (realNumber[0] == '-')
+  {
+    sign = "-";
+    realNumber.erase(0, 1);
+  }
+  else if (realNumber[0] == '+')
+  {
+    //Default sign is +
+    realNumber.erase(0, 1);
+  }
+  else if (realNumber[0] == '.')
+  {
+    realNumber = "0" + realNumber;
+  }
+
+  if (realNumber[realNumber.length() - 1] == '.')
+  {
+    realNumber += "0";
+  }
 
   if (checkValid(realNumber))
   {
-    string sign = "+";
-
     bool streak = true;
     int cursor = 0;
     // Getting dot index in the realNumber, start searching from the first character, returning -1 if not found
     int dotPos = realNumber.find('.');
-
-    if (realNumber[0] == '-')
-    {
-      sign = "-";
-      realNumber.erase(0, 1);
-    }
-    else if (realNumber[0] == '+')
-    {
-      //default sign is +
-      realNumber.erase(0, 1);
-    }
 
     //Deleting left zeros from integer part // 000099999.5
     for (int i = 0; i < realNumber.size(); ++i)

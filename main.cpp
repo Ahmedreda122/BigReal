@@ -102,6 +102,21 @@ int main()
     {
         cout << "Test 20 Accepted\n";
     } 
+    if (BigReal("-90000.544") < BigReal("1056.89"))
+    {
+        cout << "Test 21 Accepted\n";
+    }
+    if (BigReal("-9862.55") > BigReal("-10000.55656"))
+    {
+        cout << "Test 22 Accepted\n";
+    }
+    if ((BigReal("1.") == BigReal("1.0")) && (BigReal(".5") == BigReal("0.5")))
+    {
+        cout << "Test 23 Accepted\n";
+    }
+
+    
+
     
     //   stringstream realnStr, sstr;
 
