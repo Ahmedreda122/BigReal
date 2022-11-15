@@ -4,7 +4,7 @@ BigReal::BigReal(double realNumber)
 {
   if (realNumber == 0.0)
   {
-    BigReal("0.0");
+    *this = BigReal("0.0");
     return;
   }
   else
@@ -84,7 +84,7 @@ BigReal::BigReal(string realNumber)
     //Deleting left zeros from integer part // 000099999.5
     for (int i = 0; i < realNumber.size(); ++i)
     {
-      if (realNumber[i] == '0' && streak == true)
+      if (realNumber[i] == '0')
       {
         ++cursor;
       }
@@ -121,7 +121,7 @@ BigReal::BigReal(string realNumber)
       // Deleting right zeros from fraction part 1.5000
       for (int i = realNumber.size() - 1; i >= 0; --i)
       {
-        if (realNumber[i] == '0' && streak == true)
+        if (realNumber[i] == '0')
         {
           ++cursor;
         }
